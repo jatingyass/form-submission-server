@@ -1,25 +1,32 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const app = express();
 
-// Middleware 1
-app.use((req, res, next) => {
-  console.log('Middleware 1: Incoming request');
-  next(); // Passing control to the next middleware
+// Use body-parser middleware to parse form data
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Route to display the form
+app.get('/add-product', (req, res) => {
+  res.send(`
+    <form action="/product" method="POST">
+      <label for="productName">Product Name:</label>
+      <input type="text" id="productName" name="productName" required><br><br>
+      <label for="productSize">Product Size:</label>
+      <input type="text" id="productSize" name="productSize" required><br><br>
+      <button type="submit">Add Product</button>
+    </form>
+  `);
 });
 
-// Middleware 2
-app.use((req, res, next) => {
-  console.log('Middleware 2: Processing request');
-  next();
+// Route to handle form submission
+app.post('/product', (req, res) => {
+  const { productName, productSize } = req.body;
+  console.log(`Product Name: ${productName}, Product Size: ${productSize}`);
+  res.redirect('/add-product');
 });
 
-app.get('/', (req, res) => {
-  res.send('<h1> Hello to Node JS </h1>');
-});
-
-// Start server on port 3000
+// Listen on port 3000
 app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+  console.log('Server is running on http://localhost:3000');
 });
-
-
