@@ -1,15 +1,25 @@
 const express = require('express');
-
 const app = express();
 
+// Middleware 1
 app.use((req, res, next) => {
-    console.log('In the middleware');
-    next(); // allows the request to continue to the next middleware in the line
+  console.log('Middleware 1: Incoming request');
+  next(); // Passing control to the next middleware
 });
 
+// Middleware 2
 app.use((req, res, next) => {
-    console.log('In another middleware!');
-    res.send('<h1>Hello from Epress!</h1>');
+  console.log('Middleware 2: Processing request');
+  next();
 });
 
-app.listen(3000);
+app.get('/', (req, res) => {
+  res.send('<h1> Hello to Node JS </h1>');
+});
+
+// Start server on port 3000
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+
+
