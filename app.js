@@ -4,28 +4,19 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
+app.set('view engine', 'ejs');
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Serve static files like CSS and client-side JavaScript
+app.set('views', path.join(__dirname, 'views'));  // Ensures it works across OS
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Route to show the login form
 app.get('/login', (req, res) => {
-  res.send(`
-    <html>
-    <head><title>Login</title></head>
-    <body>
-      <h2>Login</h2>
-      <form id="loginForm">
-        <label for="username">Enter Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <button type="submit">Login</button>
-      </form>
-      <script src="/login.js"></script>
-    </body>
-    </html>
-  `);
+  res.render('login');  // Render the login.ejs file
 });
 
 // Route to show the message form after login
@@ -61,6 +52,22 @@ app.post('/send-message', (req, res) => {
   fs.appendFile('chat.txt', chatMessage, (err) => {
     if (err) throw err;
   });
+
+  //  404 Page not found
+app.use((req, res) => {
+  res.status(404).render('404');  // Render the 404.ejs file
+});
+
+//contact us 
+app.get('/contactus', (req, res) => {
+  res.render('contactus');
+});
+
+app.post('/success', (req, res) => {
+  // You can handle form data here if needed
+  res.render('success');
+});
+
 
   res.redirect('/');
 });
