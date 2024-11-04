@@ -1,5 +1,30 @@
-<nav>
-    <a href="/">Home</a>
-    <a href="/contactus">Contact Us</a>
-  </nav>
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/contactus">Contact Us</a>
+    </nav>
+
+    <h2>Send a Message</h2>
+    <form action="/send-message" method="POST">
+       
+        <label for="message">Message:</label>
+        <input type="text" id="message" name="message" required><br><br>
+        
+        <button type="submit">Send</button>
+    </form>
+    <hr>
+    <h3>Chat History:</h3>
+    <div id="chat">
+        <pre><%= chatMsg %></pre>    </div>
+    <script src="/getUser.js"></script>
+</body>
+</html>
